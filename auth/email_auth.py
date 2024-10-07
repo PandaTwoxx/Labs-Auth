@@ -3,6 +3,9 @@ import smtplib
 import logging
 from email.mime.text import MIMEText
 
+class EmailError(Exception):
+    """Email Error"""
+
 def send_auth_code(to_email: str, auth_code: str):
     """Email authentication
 
@@ -30,5 +33,5 @@ def send_auth_code(to_email: str, auth_code: str):
             server.login(sender_email, sender_password)
             server.sendmail(sender_email, to_email, msg.as_string())
         logger.info("Authentication code sent to %s", to_email)
-    except Exception as e:
+    except EmailError as e:
         logger.error("Failed to send email: %s", e)
